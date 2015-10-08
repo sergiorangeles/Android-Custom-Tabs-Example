@@ -11,5 +11,6 @@
     <string name="activity_custom_tab_add_action_button">Add Action Button</string>
     <string name="activity_custom_tab_add_custom_menu">Add A Custom Menu</string>
     <string name="activity_custom_tab_load_custom_tab">Open Custom Tab</string>
+    <string name="activity_custom_tab_share_website">Share website</string>
 
 </resources>

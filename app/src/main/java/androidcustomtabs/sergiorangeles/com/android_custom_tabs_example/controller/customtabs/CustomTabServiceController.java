@@ -14,9 +14,9 @@ import java.lang.ref.WeakReference;
 /**
  * @author Sergio R. Angeles
  */
-public class CustomTabUtils extends CustomTabsServiceConnection {
+public class CustomTabServiceController extends CustomTabsServiceConnection {
 
-    private static final String TAG = CustomTabUtils.class.getSimpleName();
+    private static final String TAG = CustomTabServiceController.class.getSimpleName();
 
     private static final String PKG_NAME_CHROME = "com.android.chrome";
 
@@ -24,7 +24,7 @@ public class CustomTabUtils extends CustomTabsServiceConnection {
     private String mWebsiteUrl;
     private CustomTabsSession mCustomTabsSession;
 
-    public CustomTabUtils(Context context, String websiteUrl) {
+    public CustomTabServiceController(Context context, String websiteUrl) {
         mContextWeakRef = new WeakReference<Context>(context);
         mWebsiteUrl = websiteUrl;
     }
@@ -47,8 +47,11 @@ public class CustomTabUtils extends CustomTabsServiceConnection {
             if (!TextUtils.isEmpty(mWebsiteUrl)) {
                 Uri uri = Uri.parse(mWebsiteUrl);
                 if (uri != null && mCustomTabsSession != null) {
-                    boolean mayLaunchUrl = mCustomTabsSession.mayLaunchUrl(uri, null, null);
-                    Log.d(TAG, "may Launch URL: " + mayLaunchUrl);
+
+                    // If this returns true, custom tabs will work,
+                    // otherwise, you need another alternative if you don't want the user
+                    // to be launched out of the app by default
+                    mCustomTabsSession.mayLaunchUrl(uri, null, null);
                 }
             }
         }

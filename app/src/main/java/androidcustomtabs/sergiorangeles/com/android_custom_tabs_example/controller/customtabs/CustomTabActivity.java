@@ -43,7 +43,7 @@ public class CustomTabActivity extends AppCompatActivity implements OnClickListe
 
     private Bitmap mActionCallIcon, mActionCallLightIcon, mActionBackIcon;
 
-    CustomTabUtils customTabUtils;
+    private CustomTabServiceController mCustomTabServiceController;
 
 
     public static Intent newInstanceIntent(Context context, WebsiteItem websiteItem) {
@@ -104,39 +104,8 @@ public class CustomTabActivity extends AppCompatActivity implements OnClickListe
         mActionBackIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_action_back);
 
         // Init the custom tabs service connection
-        customTabUtils = new CustomTabUtils(this, mWebsiteUrl);
-        customTabUtils.bindCustomTabService();
-//        mCustomTabsServiceConnection = new CustomTabsServiceConnection() {
-//            @Override
-//            public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
-//
-//                if (customTabsClient != null) {
-//
-//                    // Init the custom tab client and start to warm up
-//                    mCustomTabsClient = customTabsClient;
-//
-//                    mCustomTabsClient.warmup(0L);
-//
-//                    // Can pass in a callback here
-//                    mCustomTabsSession = mCustomTabsClient.newSession(null);
-//
-//                    // Let the session know that it may launch a url soon
-//                    Uri uri = Uri.parse(mWebsiteUrl);
-//                    if (uri != null) {
-//                        mCustomTabsSession.mayLaunchUrl(uri, null, null);
-//                    }
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onServiceDisconnected(ComponentName componentName) {
-//                mCustomTabsClient = null;
-//            }
-//        };
-//
-//        // Bind the service
-//        CustomTabsClient.bindCustomTabsService(this, PKG_NAME_CHROME, mCustomTabsServiceConnection);
+        mCustomTabServiceController = new CustomTabServiceController(this, mWebsiteUrl);
+        mCustomTabServiceController.bindCustomTabService();
 
     }
 
@@ -166,7 +135,7 @@ public class CustomTabActivity extends AppCompatActivity implements OnClickListe
         Log.d(TAG, "onDestroy");
 
         // Unbind the custom tabs service
-        customTabUtils.unbindCustomTabService();
+        mCustomTabServiceController.unbindCustomTabService();
     }
 
     @Override
@@ -216,17 +185,15 @@ public class CustomTabActivity extends AppCompatActivity implements OnClickListe
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, actionIntent, 0);
             intentBuilder.setActionButton( mColorToolbarCheckbox.isChecked() ? mActionCallLightIcon :mActionCallIcon, "Call", pendingIntent);
-            Log.d(TAG, "display action button complete");
         }
 
         // Add custom menu items
         if (mCustomMenuCheckbox.isChecked()) {
-
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
             shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this website: " + mWebsiteUrl);
             PendingIntent menuIntent = PendingIntent.getActivity(this, 0, shareIntent, 0);
-            intentBuilder.addMenuItem("Share", menuIntent);
+            intentBuilder.addMenuItem(getString(R.string.activity_custom_tab_share_website), menuIntent);
         }
 
         return intentBuilder.build();
