@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Android Custom Tabs Example</string>
+
+    <string name="activity_main_title">Select URL</string>
+
+    <string name="activity_custom_tab_title">Customize Chrome Tab</string>
+    <string name="activity_custom_tab_color_toolbar">Color the Toolbar</string>
+    <string name="activity_custom_tab_display_title">Display Title</string>
+    <string name="activity_custom_tab_display_custom_back_button">Display Custom Back Button</string>
+    <string name="activity_custom_tab_add_custom_animations">Add Custom Animations</string>
+    <string name="activity_custom_tab_add_action_button">Add Action Button</string>
+    <string name="activity_custom_tab_add_custom_menu">Add A Custom Menu</string>
+    <string name="activity_custom_tab_load_custom_tab">Open Custom Tab</string>
+
+</resources>
