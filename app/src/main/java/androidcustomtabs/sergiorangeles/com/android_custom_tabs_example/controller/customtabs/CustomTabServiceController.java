@@ -36,12 +36,8 @@ public class CustomTabServiceController extends CustomTabsServiceConnection {
         if (customTabsClient != null) {
             customTabsClient.warmup(0L);
 
-            // Create a new session if needed, or else use a previous session
-            if (mCustomTabsSession == null) {
-                // Can pass in a call back here
-                Log.d(TAG, "creating new session");
-                mCustomTabsSession = customTabsClient.newSession(null);
-            }
+            // Create a new session
+            mCustomTabsSession = customTabsClient.newSession(null);
 
             // Let the session know that it may launch a URL soon
             if (!TextUtils.isEmpty(mWebsiteUrl)) {

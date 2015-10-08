@@ -163,7 +163,7 @@
         </LinearLayout>
 
     <Button
-        android:id="@+id/activity_custom_tab_button"
+        android:id="@+id/activity_custom_tab_open_tab_button"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="30dp"

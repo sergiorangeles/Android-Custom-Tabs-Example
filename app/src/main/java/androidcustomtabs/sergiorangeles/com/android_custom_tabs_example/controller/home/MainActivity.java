@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +18,6 @@ import androidcustomtabs.sergiorangeles.com.android_custom_tabs_example.model.We
  * @author Sergio R. Angeles
  */
 public class MainActivity extends AppCompatActivity implements OnWebsiteItemClickListener {
-    private static final String TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView mRecyclerView;
     private HomeRecyclerViewAdapter mHomeRecyclerViewAdapter;
@@ -86,31 +84,9 @@ public class MainActivity extends AppCompatActivity implements OnWebsiteItemClic
 
     @Override
     public void onWebsiteItemClick(WebsiteItem websiteItem) {
-        Log.d(TAG, "onWebsiteItemClick");
-
         if (websiteItem != null) {
             Intent customTabActivityIntent = CustomTabActivity.newInstanceIntent(this, websiteItem);
             startActivity(customTabActivityIntent);
         }
     }
-
-//    @Override
-//    public void onClick(View view) {
-//        Log.d(TAG, "onClick");
-//
-//        CustomTabsIntent.Builder intentBuilder = new Builder();
-//        intentBuilder.setShowTitle(true);
-//
-//        int color = getResources().getColor(R.color.primary_red);
-//
-//        intentBuilder.setToolbarColor(color);
-//        intentBuilder.setShowTitle(true);
-//
-//        CustomTabsIntent customTabsIntent = intentBuilder.build();
-//
-//        customTabsIntent.launchUrl(this, Uri.parse("http://www.captechconsulting.com/"));
-//
-//    }
-
-
 }

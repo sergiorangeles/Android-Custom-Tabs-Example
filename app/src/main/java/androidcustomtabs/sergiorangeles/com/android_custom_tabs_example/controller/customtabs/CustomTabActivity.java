@@ -9,11 +9,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsIntent.Builder;
-import android.support.customtabs.CustomTabsServiceConnection;
-import android.support.customtabs.CustomTabsSession;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -25,31 +22,25 @@ import android.widget.CheckBox;
 import androidcustomtabs.sergiorangeles.com.android_custom_tabs_example.R;
 import androidcustomtabs.sergiorangeles.com.android_custom_tabs_example.model.WebsiteItem;
 
+/**
+ * @author Sergio R. Angeles
+ */
 public class CustomTabActivity extends AppCompatActivity implements OnClickListener {
     private static final String TAG = CustomTabActivity.class.getSimpleName();
 
     private static final String KEY_ARG_WEBSITE_URL = "KEY_ARG_WEBSITE_URL";
 
-    private static final String PKG_NAME_CHROME = "com.android.chrome";
-
-    private CustomTabsSession mCustomTabsSession;
-    private CustomTabsClient mCustomTabsClient;
-    private CustomTabsServiceConnection mCustomTabsServiceConnection;
-
-    private String mWebsiteUrl;
-    private CheckBox mDisplayTitleCheckbox, mColorToolbarCheckbox, mCustomMenuCheckbox,
-            mDisplayBackButtonCheckbox, mCustomAnimCheckbox, mActionButtonCheckbox;
-    private Button testButton;
-
-    private Bitmap mActionCallIcon, mActionCallLightIcon, mActionBackIcon;
-
     private CustomTabServiceController mCustomTabServiceController;
 
+    private CheckBox mDisplayTitleCheckbox, mColorToolbarCheckbox, mCustomMenuCheckbox,
+            mDisplayBackButtonCheckbox, mCustomAnimCheckbox, mActionButtonCheckbox;
+    private Button mOpenCustomTabButton;
+    private Bitmap mActionCallIcon, mActionCallLightIcon, mActionBackIcon;
+    private String mWebsiteUrl;
 
     public static Intent newInstanceIntent(Context context, WebsiteItem websiteItem) {
 
         Intent intent = new Intent(context, CustomTabActivity.class);
-
         Bundle args = new Bundle();
 
         // Pull out the website URL that we need for custom tabs
@@ -58,7 +49,6 @@ public class CustomTabActivity extends AppCompatActivity implements OnClickListe
         if (websiteUrl != null) {
             args.putString(KEY_ARG_WEBSITE_URL, websiteUrl);
         }
-
         intent.putExtras(args);
 
         return intent;
@@ -93,11 +83,11 @@ public class CustomTabActivity extends AppCompatActivity implements OnClickListe
         mActionButtonCheckbox = (CheckBox)findViewById(R.id.activity_custom_tab_action_button_checkbox);
         mCustomMenuCheckbox = (CheckBox)findViewById(R.id.activity_custom_tab_custom_menu_checkbox);
 
-        testButton = (Button)findViewById(R.id.activity_custom_tab_button);
-        testButton.setOnClickListener(this);
+        // Init button
+        mOpenCustomTabButton = (Button)findViewById(R.id.activity_custom_tab_open_tab_button);
+        mOpenCustomTabButton.setOnClickListener(this);
 
-        // These icons need to be this color, or they don't show up on the chrome custom tab
-        // the color is HOLO-LIGHT
+        // Need different icons depending if the chrome toolbar is colored or not
         Resources resources = getResources();
         mActionCallIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_action_call);
         mActionCallLightIcon = BitmapFactory.decodeResource(resources, R.drawable.ic_action_call_light);
@@ -132,7 +122,6 @@ public class CustomTabActivity extends AppCompatActivity implements OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
 
         // Unbind the custom tabs service
         mCustomTabServiceController.unbindCustomTabService();
@@ -184,7 +173,7 @@ public class CustomTabActivity extends AppCompatActivity implements OnClickListe
             actionIntent.setData(Uri.parse("tel:18001234567"));
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, actionIntent, 0);
-            intentBuilder.setActionButton( mColorToolbarCheckbox.isChecked() ? mActionCallLightIcon :mActionCallIcon, "Call", pendingIntent);
+            intentBuilder.setActionButton(mColorToolbarCheckbox.isChecked() ? mActionCallLightIcon : mActionCallIcon, "Call", pendingIntent);
         }
 
         // Add custom menu items

@@ -5,7 +5,8 @@
     android:id="@+id/website_item_linear_layout"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground">
 
     <TextView
         android:id="@+id/website_item_website_name_text_view"
