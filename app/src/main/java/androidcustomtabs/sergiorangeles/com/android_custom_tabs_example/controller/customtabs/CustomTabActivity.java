@@ -26,7 +26,6 @@ import androidcustomtabs.sergiorangeles.com.android_custom_tabs_example.model.We
  * @author Sergio R. Angeles
  */
 public class CustomTabActivity extends AppCompatActivity implements OnClickListener {
-    private static final String TAG = CustomTabActivity.class.getSimpleName();
 
     private static final String KEY_ARG_WEBSITE_URL = "KEY_ARG_WEBSITE_URL";
 
@@ -155,10 +154,8 @@ public class CustomTabActivity extends AppCompatActivity implements OnClickListe
         }
 
         // Display custom back button
-        //TODO: why isn't this working???
         if (mDisplayBackButtonCheckbox.isChecked()) {
             intentBuilder.setCloseButtonIcon(mActionBackIcon);
-            Log.d(TAG, "display back button complete");
         }
 
         // Add custom entrance/exit animations

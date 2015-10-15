@@ -7,7 +7,6 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.lang.ref.WeakReference;
 
@@ -15,8 +14,6 @@ import java.lang.ref.WeakReference;
  * @author Sergio R. Angeles
  */
 public class CustomTabServiceController extends CustomTabsServiceConnection {
-
-    private static final String TAG = CustomTabServiceController.class.getSimpleName();
 
     private static final String PKG_NAME_CHROME = "com.android.chrome";
 
@@ -31,7 +28,6 @@ public class CustomTabServiceController extends CustomTabsServiceConnection {
 
     @Override
     public void onCustomTabsServiceConnected(ComponentName componentName, CustomTabsClient customTabsClient) {
-        Log.d(TAG, "onCustomTabsServiceConnected");
 
         if (customTabsClient != null) {
             customTabsClient.warmup(0L);
@@ -55,13 +51,10 @@ public class CustomTabServiceController extends CustomTabsServiceConnection {
 
     @Override
     public void onServiceDisconnected(ComponentName componentName) {
-        Log.d(TAG, "onServiceDisconnected");
         mCustomTabsSession = null;
-
     }
 
     public void bindCustomTabService() {
-
         Context ctx = mContextWeakRef.get();
         if (ctx != null) {
             CustomTabsClient.bindCustomTabsService(ctx, PKG_NAME_CHROME, this);
@@ -69,7 +62,6 @@ public class CustomTabServiceController extends CustomTabsServiceConnection {
     }
 
     public void unbindCustomTabService() {
-
         Context ctx = mContextWeakRef.get();
         if (ctx != null) {
             ctx.unbindService(this);
